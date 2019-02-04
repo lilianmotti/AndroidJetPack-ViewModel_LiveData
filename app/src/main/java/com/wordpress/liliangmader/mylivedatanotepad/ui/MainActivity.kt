@@ -1,7 +1,8 @@
-package com.wordpress.liliangmader.mylivedatanotepad
+package com.wordpress.liliangmader.mylivedatanotepad.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.wordpress.liliangmader.mylivedatanotepad.R
 
 class MainActivity : AppCompatActivity() {
 
