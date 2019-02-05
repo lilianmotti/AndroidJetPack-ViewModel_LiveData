@@ -5,7 +5,7 @@
             android:id="@+id/nav_graph"
     app:startDestination="@id/fragmentLayout">
 
-    <fragment android:id="@+id/notes_fragment" android:name="com.wordpress.liliangmader.mylivedatanotepad.ui.NotesFragment"
+    <fragment android:id="@+id/fragmentLayout" android:name="com.wordpress.liliangmader.mylivedatanotepad.ui.NotesFragment"
               android:label="notes_fragment" tools:layout="@layout/notes_fragment">
     </fragment>
 
