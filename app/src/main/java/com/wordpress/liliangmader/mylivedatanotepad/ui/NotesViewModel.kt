@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel;
 import com.wordpress.liliangmader.mylivedatanotepad.data.Note
 import com.wordpress.liliangmader.mylivedatanotepad.data.NoteRepository
 
-class NotesViewModel( private val noteRepository: NoteRepository) : ViewModel() {
+class NotesViewModel : ViewModel() {
+    private lateinit var noteRepository: NoteRepository
 
     fun getNotes() = noteRepository.getNotes()
 
