@@ -27,7 +27,7 @@ import java.security.AccessControlContext
         @Volatile
         private var instance: NoteDatabase? = null
 
-        fun getInstance(context: Context) {
+        fun getInstance(context: Context): NoteDatabase? {
             if (instance == null) {
                 //room doesn't allow operations on the main thread
                 synchronized(NoteDatabase::class) {
@@ -35,9 +35,13 @@ import java.security.AccessControlContext
                         context.getApplicationContext(),
                         NoteDatabase::class.java, "note_database"
                     ).build()
-
                 }
             }
+            return instance
+        }
+
+        fun destroyInstance(){
+            instance = null
         }
     }
 }

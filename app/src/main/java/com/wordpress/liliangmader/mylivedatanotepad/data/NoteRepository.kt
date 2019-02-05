@@ -3,7 +3,7 @@ package com.wordpress.liliangmader.mylivedatanotepad.data
 import androidx.lifecycle.LiveData
 
 // abstraction layer between data sources and the rest of the app, SQLite or internet
-// best prectice, does not have to extend anything
+// best practice, does not have to extend anything
 class NoteRepository private constructor(
     private val noteDao: NoteDAO,
     private val allNotes: LiveData<List<Note>>) {

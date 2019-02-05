@@ -7,7 +7,6 @@ import com.wordpress.liliangmader.mylivedatanotepad.data.NoteRepository
 class NotesViewModelFactory(private val noteRepository: NoteRepository): ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-       // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return NotesViewModel() as T
     }
 
