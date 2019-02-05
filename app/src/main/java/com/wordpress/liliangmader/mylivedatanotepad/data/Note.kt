@@ -1,8 +1,17 @@
 package com.wordpress.liliangmader.mylivedatanotepad.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-//declare all the variables needed to compose a note, e.g. val noteText: String, val author: String, val date with a timestamp...
-class Note(val note: String)  {
+// this entity represents one note in the database
+@Entity(tableName = "note_table")
+//create member variables
+class Note(
+    @PrimaryKey(autoGenerate = true) val id:Long,
+    @ColumnInfo(name = "note") val note: String
     //additional functions and variables to be added later
-
-}
+    //SQLite table needs primary keys
+    //val creates getters only
+    //var creates getters and setters
+)
