@@ -2,24 +2,30 @@ package com.wordpress.liliangmader.mylivedatanotepad.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 //Data Access Object, updated to ROOM and SQLite database
 @Dao
 //should be an abstract class or an interface
-abstract class NoteDAO {
-    //prepare a database table
-
-    @Query("SELECT * FROM note_table")
-    fun getNotes() = notes as LiveData<List<Note>>
-
+interface NoteDAO {
 
     @Insert
     abstract fun insertNotes(note: Note)
 
+    @Update
+    abstract fun updateNotes(note: Note)
 
+    @Delete
+    abstract fun deleteNotes(note: Note)
+
+    @Query("DELETE FROM note_table")
+    abstract fun deleteAllNotes()
+
+    //Room can return liveData, so any changes will be notified to the activity
+    @Query("SELECT * FROM note_table")
+    fun getAllNotes(): LiveData<List<Note>>
+
+   /** previous version, abstract class instead of interface
     //MutableLiveData from Architecture Components Library
     private val noteList = mutableListOf<Note>()
 
@@ -35,6 +41,6 @@ abstract class NoteDAO {
         noteList.add(note)
         notes.value = noteList
     }
-
+   **/
 
 }
