@@ -10,6 +10,7 @@ import java.security.AccessControlContext
     Note::class),
     version = 1)
  abstract class NoteDatabase: RoomDatabase() {
+// the class should be abstract and extends roomdatabase
 
     //if more than one Dao, they should be declared here
 
@@ -28,6 +29,7 @@ import java.security.AccessControlContext
 
         fun getInstance(context: Context) {
             if (instance == null) {
+                //room doesn't allow operations on the main thread
                 synchronized(NoteDatabase::class) {
                     instance = Room.databaseBuilder(
                         context.getApplicationContext(),

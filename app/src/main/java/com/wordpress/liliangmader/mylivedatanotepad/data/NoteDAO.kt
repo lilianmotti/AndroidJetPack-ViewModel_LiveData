@@ -10,13 +10,13 @@ import androidx.room.*
 interface NoteDAO {
 
     @Insert
-    abstract fun insertNotes(note: Note)
+    abstract fun insertNote(note: Note)
 
     @Update
-    abstract fun updateNotes(note: Note)
+    abstract fun updateNote(note: Note)
 
     @Delete
-    abstract fun deleteNotes(note: Note)
+    abstract fun deleteNote(note: Note)
 
     @Query("DELETE FROM note_table")
     abstract fun deleteAllNotes()
