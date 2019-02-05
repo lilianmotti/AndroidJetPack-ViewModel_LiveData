@@ -9,3 +9,4 @@ import androidx.room.RoomDatabase
 abstract class ChoiceDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDAO
 }
+

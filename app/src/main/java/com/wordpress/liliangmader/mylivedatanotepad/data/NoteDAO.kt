@@ -9,7 +9,7 @@ import androidx.room.Query
 //Data Access Object, updated to ROOM and SQLite database
 @Dao
 //should be an abstract class or an interface
-interface NoteDAO {
+abstract class NoteDAO {
     //prepare a database table
 
     @Query("SELECT * FROM note_table")
@@ -17,10 +17,9 @@ interface NoteDAO {
 
 
     @Insert
-    fun insertNotes(note: Note)
+    abstract fun insertNotes(note: Note)
 
 
-    /**previous version
     //MutableLiveData from Architecture Components Library
     private val noteList = mutableListOf<Note>()
 
@@ -36,7 +35,6 @@ interface NoteDAO {
         noteList.add(note)
         notes.value = noteList
     }
-    **/
 
 
 }
