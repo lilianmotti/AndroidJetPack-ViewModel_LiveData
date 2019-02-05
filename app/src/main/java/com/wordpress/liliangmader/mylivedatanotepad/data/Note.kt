@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 //create member variables
 class Note(
     @PrimaryKey(autoGenerate = true) val id:Long,
-    @ColumnInfo(name = "note") val note: String
+    @ColumnInfo(name = "note") var note: String
     //additional functions and variables to be added later
     //SQLite table needs primary keys
     //val creates getters only
