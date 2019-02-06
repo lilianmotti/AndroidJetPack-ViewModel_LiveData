@@ -15,7 +15,7 @@ class NoteRepository(application: Application) {
     init {
         val notesDatabase = NoteDatabase.getInstance(application)
         noteDao = notesDatabase?.noteDao()!!
-        allNotes = noteDao?.getAllNotes()
+        allNotes = noteDao.getAllNotes()
     }
 
     fun getNotes() = allNotes
