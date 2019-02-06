@@ -9,17 +9,13 @@ import androidx.room.*
 //should be an abstract class or an interface
 interface NoteDAO {
 
+    //just define the name, args and return type, and annotate with the database operation
+    // room does the rest
     @Insert
-    abstract fun insertNote(note: Note)
-
-    @Update
-    abstract fun updateNote(note: Note)
-
-    @Delete
-    abstract fun deleteNote(note: Note)
+    fun insertNote(note: Note)
 
     @Query("DELETE FROM note_table")
-    abstract fun deleteAllNotes()
+    fun deleteAllNotes()
 
     //Room can return liveData, so any changes will be notified to the activity
     @Query("SELECT * FROM note_table")
@@ -42,5 +38,6 @@ interface NoteDAO {
         notes.value = noteList
     }
    **/
+
 
 }

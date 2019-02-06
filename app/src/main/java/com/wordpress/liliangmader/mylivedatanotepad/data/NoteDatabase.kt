@@ -18,6 +18,9 @@ import java.security.AccessControlContext
     //var noteDao = NoteDAO()
 
     //if Dao is interface, declare fun
+    //normally we cannot call abstract methods because they do not have a body
+    //but since we create the NoteDatabase with the builder below
+    //room auto generates all the necessary subclasses and code for this method
     abstract fun noteDao(): NoteDAO
 
 
@@ -27,7 +30,7 @@ import java.security.AccessControlContext
         @Volatile
         private var instance: NoteDatabase? = null
 
-        fun getInstance(context: Context) {
+        fun getInstance(context: Context):NoteDatabase? {
             if (instance == null) {
                 //room doesn't allow operations on the main thread
                 synchronized(NoteDatabase::class) {
@@ -38,6 +41,11 @@ import java.security.AccessControlContext
 
                 }
             }
+            return instance
+        }
+
+        fun destroyInstance(){
+            instance = null
         }
     }
 }
