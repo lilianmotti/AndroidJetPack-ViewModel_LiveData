@@ -3,14 +3,13 @@ package com.wordpress.liliangmader.mylivedatanotepad.utilities
 import android.content.Context
 import com.wordpress.liliangmader.mylivedatanotepad.data.NoteDatabase
 import com.wordpress.liliangmader.mylivedatanotepad.data.NoteRepository
-import com.wordpress.liliangmader.mylivedatanotepad.ui.NotesViewModelFactory
+import com.wordpress.liliangmader.mylivedatanotepad.ui.NoteViewModelFactory
 
 object InjectorUtils {
     /**
-    fun provideNotesViewModelFactory():NotesViewModelFactory {
-        val noteRepository = NoteRepository
-            .getInstance(NoteDatabase.getInstance().noteDao())
-        return NotesViewModelFactory(noteRepository)
+    fun provideNotesViewModelFactory(): NoteViewModelFactory {
+        val noteRepository = NoteRepository.getInstance(NoteDatabase.getInstance().noteDao
+        return NoteViewModelFactory(noteRepository)
     }
     **/
 }
