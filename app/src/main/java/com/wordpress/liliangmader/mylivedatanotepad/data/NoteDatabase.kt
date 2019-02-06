@@ -5,6 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import java.security.AccessControlContext
+import android.os.AsyncTask
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.annotation.NonNull
+
+
 
 @Database(entities = arrayOf(
     Note::class),
@@ -30,22 +35,48 @@ import java.security.AccessControlContext
         @Volatile
         private var instance: NoteDatabase? = null
 
-        fun getInstance(context: Context):NoteDatabase? {
+        fun getInstance(context: Context): NoteDatabase? {
             if (instance == null) {
                 //room doesn't allow operations on the main thread
                 synchronized(NoteDatabase::class) {
                     instance = Room.databaseBuilder(
-                        context.getApplicationContext(),
-                        NoteDatabase::class.java, "note_database"
-                    ).build()
+                        context.applicationContext,
+                        NoteDatabase::class.java, "note_database")
+                        .fallbackToDestructiveMigration()
+                        .addCallback(roomCallback)
+                        .build()
 
                 }
             }
             return instance
         }
+        private val roomCallback = object : RoomDatabase.Callback() {
+            //onOpen or onCreate
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                PopulateDbAsync(instance!!).execute()
+            }
+        }
 
-        fun destroyInstance(){
+      /**  fun destroyInstance() {
             instance = null
+        }
+        **/
+
+    }
+
+
+
+    private class PopulateDbAsync internal constructor(db: NoteDatabase) : AsyncTask<Void, Void, Void>() {
+
+        private val noteDao: NoteDAO = db.noteDao()
+
+        override fun doInBackground(vararg params: Void): Void? {
+            noteDao.deleteAllNotes()
+            noteDao.insertNote(Note("my first note"))
+            noteDao.insertNote(Note("my second note"))
+            noteDao.insertNote(Note("my third note"))
+            return null
         }
     }
 }
