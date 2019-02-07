@@ -3,6 +3,7 @@ package com.wordpress.liliangmader.mylivedatanotepad.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 
 //Data Access Object, updated to ROOM and SQLite database
 @Dao
@@ -12,7 +13,10 @@ interface NoteDAO {
     //just define the name, args and return type, and annotate with the database operation
     // room does the rest
     @Insert
-    fun insertNote(note: Note)
+    fun insertNote(note: Note):Long
+
+    @Update(onConflict = REPLACE)
+    fun update(note: Note): Int
 
     @Query("DELETE FROM note_table")
     fun deleteAllNotes()

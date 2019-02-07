@@ -11,9 +11,7 @@ import androidx.annotation.NonNull
 
 
 
-@Database(entities = arrayOf(
-    Note::class),
-    version = 1)
+@Database(entities = [Note::class], version = 1)
  abstract class NoteDatabase: RoomDatabase() {
 // the class should be abstract and extends roomdatabase
 
@@ -36,33 +34,34 @@ import androidx.annotation.NonNull
         private var instance: NoteDatabase? = null
 
         fun getInstance(context: Context): NoteDatabase? {
-            if (instance == null) {
-                //room doesn't allow operations on the main thread
-                synchronized(NoteDatabase::class) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        NoteDatabase::class.java, "note_database")
-                        .fallbackToDestructiveMigration()
-                        .addCallback(roomCallback)
-                        .build()
-
-                }
+            //room doesn't allow operations on the main thread
+            // synchronized(NoteDatabase::class) {
+            instance ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    NoteDatabase::class.java, "note_database")
+                 //   .fallbackToDestructiveMigration()
+                    // .addCallback(roomCallback)
+                    .build()
             }
+
             return instance
-        }
-        private val roomCallback = object : RoomDatabase.Callback() {
+
+            /**
+            private val roomCallback = object : RoomDatabase.Callback() {
             //onOpen or onCreate
             override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
-                PopulateDbAsync(instance!!).execute()
+            super.onCreate(db)
+            PopulateDbAsync(instance!!).execute()
             }
-        }
-
-      /**  fun destroyInstance() {
+            }
+             **/
+            /**  fun destroyInstance() {
             instance = null
-        }
-        **/
+            }
+             **/
 
+        }
     }
 
 

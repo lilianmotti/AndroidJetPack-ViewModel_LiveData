@@ -7,12 +7,12 @@ import com.wordpress.liliangmader.mylivedatanotepad.data.NoteRepository
 
 //accept one param
 class NoteViewModelFactory(private val noteRepository: NoteRepository): ViewModelProvider.NewInstanceFactory(){
-
+/** use NoteViewModel instead
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
       //  return NoteViewModel(noteRepository) as T
-        return NoteViewModel(noteRepository) as T
+        return NoteViewModel(application = Application()) as T
     }
 
-
+**/
 }

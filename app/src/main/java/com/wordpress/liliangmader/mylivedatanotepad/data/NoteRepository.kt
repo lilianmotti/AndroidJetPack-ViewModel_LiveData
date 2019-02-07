@@ -7,16 +7,16 @@ import androidx.lifecycle.LiveData
 // abstraction layer between data sources and the rest of the app, SQLite or internet
 // best practice, does not have to extend anything
 // use primary constructor, constrained, and initialization block
-class NoteRepository(application: Application) {
+class NoteRepository(private val noteDAO: NoteDAO) {
 
-    private val noteDao: NoteDAO
-    private val allNotes: LiveData<List<Note>>
+    private lateinit var noteDao: NoteDAO
+    val allNotes: LiveData<List<Note>> = noteDAO.getAllNotes()
 
-    init {
+   /** init {
         val notesDatabase = NoteDatabase.getInstance(application)
         noteDao = notesDatabase?.noteDao()!!
         allNotes = noteDao.getAllNotes()
-    }
+    }**/
 
     fun getNotes() = allNotes
 
@@ -51,18 +51,18 @@ class NoteRepository(application: Application) {
         }
     }
 
-    /**
+
     companion object {
         @Volatile
         private var instance: NoteRepository? = null
 
-        fun getInstance(noteDao: NoteDAO, allNotes: LiveData<List<Note>>) =
+        fun getInstance(noteDao: NoteDAO) =
             instance ?: synchronized(this) {
-                instance ?: NoteRepository().also { instance = it }
+                instance ?: NoteRepository(noteDao).also { instance = it }
             }
     }
 
-    **/
+
 
 }
 
