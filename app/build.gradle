@@ -57,5 +57,5 @@ dependencies {
     // Coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    implementation 'com.google.android.material:material:1.0.0'
 }
-
