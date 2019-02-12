@@ -2,6 +2,7 @@ package com.wordpress.liliangmader.mylivedatanotepad.data
 
 import android.app.Application
 import android.os.AsyncTask
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 
 // abstraction layer between data sources and the rest of the app, SQLite or internet
@@ -9,17 +10,25 @@ import androidx.lifecycle.LiveData
 // use primary constructor, constrained, and initialization block
 class NoteRepository(private val noteDAO: NoteDAO) {
 
-    private lateinit var noteDao: NoteDAO
+    // private lateinit var noteDao: NoteDAO
     val allNotes: LiveData<List<Note>> = noteDAO.getAllNotes()
 
-   /** init {
-        val notesDatabase = NoteDatabase.getInstance(application)
-        noteDao = notesDatabase?.noteDao()!!
-        allNotes = noteDao.getAllNotes()
+    /** init {
+    val notesDatabase = NoteDatabase.getInstance(application)
+    noteDao = notesDatabase?.noteDao()!!
+    allNotes = noteDao.getAllNotes()
     }**/
 
     fun getNotes() = allNotes
 
+    //use coroutines
+    @WorkerThread
+    suspend fun insert(note: Note) {
+        noteDAO.insertNote(note)
+    }
+}
+
+    /**
     fun insertNote(note: Note) {
        //not noteDao.insertNote(note), use async instead
         InsertNoteAsync(noteDao).execute(note)
@@ -65,4 +74,4 @@ class NoteRepository(private val noteDAO: NoteDAO) {
 
 
 }
-
+        **/
