@@ -8,7 +8,9 @@ import java.security.AccessControlContext
 import android.os.AsyncTask
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.annotation.NonNull
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Database(entities = [Note::class], version = 1)
@@ -33,15 +35,17 @@ import androidx.annotation.NonNull
         @Volatile
         private var instance: NoteDatabase? = null
 
-        fun getInstance(context: Context): NoteDatabase? {
+        fun getInstance(context: Context, scope: CoroutineScope): NoteDatabase? {
             //room doesn't allow operations on the main thread
             // synchronized(NoteDatabase::class) {
             instance ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    NoteDatabase::class.java, "note_database")
-                 //   .fallbackToDestructiveMigration()
+                    NoteDatabase::class.java, "note_database"
+                )
+                    //   .fallbackToDestructiveMigration()
                     // .addCallback(roomCallback)
+                    .addCallback(NoteDatabaseCallback(scope))
                     .build()
             }
 
@@ -64,19 +68,44 @@ import androidx.annotation.NonNull
         }
     }
 
+    private class NoteDatabaseCallback(
+        private val scope: CoroutineScope
+    ) : RoomDatabase.Callback() {
+
+        override fun onOpen(db: SupportSQLiteDatabase) {
+            super.onOpen(db)
+            instance?.let { database ->
+                scope.launch(Dispatchers.IO) {
+                    populateDatabase(database.noteDao())
+                }
+            }
+        }
 
 
-    private class PopulateDbAsync internal constructor(db: NoteDatabase) : AsyncTask<Void, Void, Void>() {
+        fun populateDatabase(noteDao: NoteDAO) {
+            noteDao.deleteAllNotes()
+
+            var note = Note("My first note")
+            noteDao.insertNote(note)
+            note = Note("My second note")
+            noteDao.insertNote(note)
+
+        }
+
+        /**
+        private class PopulateDbAsync internal constructor(db: NoteDatabase) : AsyncTask<Void, Void, Void>() {
 
         private val noteDao: NoteDAO = db.noteDao()
 
         override fun doInBackground(vararg params: Void): Void? {
-            noteDao.deleteAllNotes()
-            noteDao.insertNote(Note("my first note"))
-            noteDao.insertNote(Note("my second note"))
-            noteDao.insertNote(Note("my third note"))
-            return null
+        noteDao.deleteAllNotes()
+        noteDao.insertNote(Note("my first note"))
+        noteDao.insertNote(Note("my second note"))
+        noteDao.insertNote(Note("my third note"))
+        return null
         }
+        }
+         **/
     }
 }
 

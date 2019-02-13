@@ -27,7 +27,7 @@ class NoteViewModel(application: Application) : ViewModel() {
     val allNotes: LiveData<List<Note>>
 
     init {
-        val noteDao = NoteDatabase.getInstance(application)!!.noteDao()
+        val noteDao = NoteDatabase.getInstance(application, scope)!!.noteDao()
         noteRepository = NoteRepository(noteDao)
         allNotes = noteRepository.allNotes
     }
