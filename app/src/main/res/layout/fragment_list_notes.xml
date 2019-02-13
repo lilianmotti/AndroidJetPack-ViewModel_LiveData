@@ -12,15 +12,15 @@
             android:layout_height="wrap_content"
             android:background="@android:color/background_light"
             tools:listitem="@layout/recyclerview_item"
-    >
+    />
 
-    </androidx.recyclerview.widget.RecyclerView>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
+            android:id="@+id/button_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:srcCompat="@color/colorAccent"
-            android:id="@+id/add_fab"/>
+            android:text="@string/button_add"
+            android:layout_gravity="bottom"
+    />
 
 
 </FrameLayout>

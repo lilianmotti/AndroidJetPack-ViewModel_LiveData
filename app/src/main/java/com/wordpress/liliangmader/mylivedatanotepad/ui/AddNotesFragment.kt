@@ -34,10 +34,12 @@ class AddNotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var inflate = inflater.inflate(R.layout.fragment_add_notes, container, false)
+        var view = inflater.inflate(R.layout.fragment_add_notes, container, false)
 
-        editWordView = inflate.findViewById(R.id.edit_word)
-        val button = inflate.findViewById<Button>(R.id.button_save)
+        editWordView = view.findViewById(R.id.edit_word)
+     //   val button = view.findViewById<Button>(R.id.button_save)
+        val button = view.findViewById<Button>(R.id.button_save)
+
         button.setOnClickListener{
            // val replyIntent = Intent()
             if (TextUtils.isEmpty(editWordView.text)) {
@@ -51,11 +53,12 @@ class AddNotesFragment : Fragment() {
                 noteViewModel.insert(Note(note))
                 findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment)
                 //another way: implement onFragmentInteractionListener
+                //TODO add more fragments and media player
             }
           //  finish()
         }
 
-         return inflate
+         return view
     }
 
  /**example for activity intents

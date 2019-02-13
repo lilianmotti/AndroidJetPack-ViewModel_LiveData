@@ -13,9 +13,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-//viewmodel provider requires a viewmodelfactory
-//NoteViewModel> has to have zero argument constructor
-class NoteViewModel(application: Application) : ViewModel() {
+//viewmodel provider can use a viewmodelfactory
+//NoteViewModel has to have zero argument constructor
+class NoteViewModel(application: Application): AndroidViewModel(application) {
 
     private var parentJob = Job()
     private val coroutineContext: CoroutineContext
@@ -27,7 +27,7 @@ class NoteViewModel(application: Application) : ViewModel() {
     val allNotes: LiveData<List<Note>>
 
     init {
-        val noteDao = NoteDatabase.getInstance(application, scope)!!.noteDao()
+        val noteDao = NoteDatabase.getInstance(application,scope)!!.noteDao()
         noteRepository = NoteRepository(noteDao)
         allNotes = noteRepository.allNotes
     }

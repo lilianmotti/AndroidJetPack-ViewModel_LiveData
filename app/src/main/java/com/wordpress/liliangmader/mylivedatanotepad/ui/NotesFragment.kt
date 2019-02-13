@@ -31,44 +31,46 @@ class NotesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.notes_fragment, container, false)
+        var inflater = inflater.inflate(R.layout.notes_fragment, container, false)
+       // button_save_note.setOnClickListener{
+         //   Toast.makeText(context?.applicationContext,"click",Toast.LENGTH_SHORT).show()
+            //   val note = Note(editText_note.text.toString())
+            //        viewModel.insertNote(note)
+            //     editText_note.setText("")
+
+      //  }
+
+
+    return inflater
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(NoteViewModel::class.java)
+    //    viewModel = ViewModelProviders.of(activity!!).get(NoteViewModel::class.java)
 
-       // val noteRepository = NoteRepository.getInstance(NoteDatabase.getInstance(context)!!.noteDao())
+        // val noteRepository = NoteRepository.getInstance(NoteDatabase.getInstance(context)!!.noteDao())
 
         //attach the fragment to the viewmodel instead of the activity or fragment
 
-        viewModel.allNotes.observe(this, Observer<List<Note>>{
+      // viewModel.allNotes.observe(this, Observer<List<Note>> {
 
-          //  override fun onChanged(t:List<Note>?){
-           //     Toast.makeText(context?.applicationContext,"activity changed",Toast.LENGTH_SHORT).show()
-          //  }
-        })
+            //  override fun onChanged(t:List<Note>?){
+            //     Toast.makeText(context?.applicationContext,"activity changed",Toast.LENGTH_SHORT).show()
+            //  }
+      //  })
         /**
         { notes ->
-            //update the recycler view
-            Toast.makeText(context?.applicationContext,"activity created",Toast.LENGTH_SHORT).show()
-            val stringBuilder = StringBuilder()
+        //update the recycler view
+        Toast.makeText(context?.applicationContext,"activity created",Toast.LENGTH_SHORT).show()
+        val stringBuilder = StringBuilder()
 
-              notes.forEach{note ->
-               stringBuilder.append("$note\n\n")
+        notes.forEach{note ->
+        stringBuilder.append("$note\n\n")
         }
         //textView_notes.text = stringBuilder.toString()
-    })
+        })
          **/
 
-        button_save_note.setOnClickListener{
-            Toast.makeText(context?.applicationContext,"click",Toast.LENGTH_SHORT).show()
-         //   val note = Note(editText_note.text.toString())
-        //        viewModel.insertNote(note)
-           //     editText_note.setText("")
-
-        }
     }
-
 
 }
