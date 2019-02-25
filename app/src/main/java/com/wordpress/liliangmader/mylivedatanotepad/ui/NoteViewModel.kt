@@ -33,8 +33,6 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     }
    // fun getNotes() = noteRepository.getNotes()
 
-  //  fun deleteNotes() = noteRepository.deleteAllNotes()
-
   //  fun insertNote(note: Note) = noteRepository.insertNote(note)
 
     fun insertNote(note:Note) = scope.launch(Dispatchers.IO) {
@@ -43,6 +41,10 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
 
     fun deleteNote(note:Note) = scope.launch(Dispatchers.IO) {
         noteRepository.deleteNote(note)
+    }
+
+    fun deleteAllNotes() = scope.launch(Dispatchers.IO) {
+        noteRepository.deleteAllNotes()
     }
 
     fun getAllNotes(allNotes: LiveData<List<Note>>) = allNotes
