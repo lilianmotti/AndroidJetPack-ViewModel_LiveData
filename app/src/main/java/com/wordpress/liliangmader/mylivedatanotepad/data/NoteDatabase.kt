@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 1, exportSchema = false)
  abstract class NoteDatabase: RoomDatabase() {
 // the class should be abstract and extends roomdatabase
 
@@ -33,80 +33,57 @@ import kotlinx.coroutines.launch
     companion object {
         // @Volatile to make this visible to other threads
         @Volatile
-        private var instance: NoteDatabase? = null
+        private var INSTANCE: NoteDatabase? = null
 
-        fun getInstance(context: Context, scope: CoroutineScope): NoteDatabase? {
+        fun getInstance(
+            context: Context,
+            scope: CoroutineScope
+        ): NoteDatabase {
             //room doesn't allow operations on the main thread
             // synchronized(NoteDatabase::class) {
-            instance ?: synchronized(this) {
+            return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    NoteDatabase::class.java, "note_database"
+                    NoteDatabase::class.java,
+                    "note_database"
                 )
-                    //   .fallbackToDestructiveMigration()
-                    // .addCallback(roomCallback)
+                    .fallbackToDestructiveMigration()
+                    //.addCallback(roomCallback)
                     .addCallback(NoteDatabaseCallback(scope))
                     .build()
+                INSTANCE = instance
+                //return instance
+                instance
             }
-
-            return instance
-
-            /**
-            private val roomCallback = object : RoomDatabase.Callback() {
-            //onOpen or onCreate
-            override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            PopulateDbAsync(instance!!).execute()
-            }
-            }
-             **/
-            /**  fun destroyInstance() {
-            instance = null
-            }
-             **/
-
         }
-    }
 
-    private class NoteDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
 
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            instance?.let { database ->
-                scope.launch(Dispatchers.IO) {
-                    populateDatabase(database.noteDao())
+        private class NoteDatabaseCallback(
+            private val scope: CoroutineScope
+        ) : RoomDatabase.Callback() {
+
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(database.noteDao())
+                    }
                 }
             }
         }
 
 
-        fun populateDatabase(noteDao: NoteDAO) {
-            noteDao.deleteAllNotes()
+            fun populateDatabase(noteDao: NoteDAO) {
+                noteDao.deleteAllNotes()
 
-            var note = Note("My first note")
-            noteDao.insertNote(note)
-            note = Note("My second note")
-            noteDao.insertNote(note)
+                var note = Note("My first note")
+                noteDao.insertNote(note)
+                note = Note("My second note")
+                noteDao.insertNote(note)
 
-        }
+            }
 
-        /**
-        private class PopulateDbAsync internal constructor(db: NoteDatabase) : AsyncTask<Void, Void, Void>() {
-
-        private val noteDao: NoteDAO = db.noteDao()
-
-        override fun doInBackground(vararg params: Void): Void? {
-        noteDao.deleteAllNotes()
-        noteDao.insertNote(Note("my first note"))
-        noteDao.insertNote(Note("my second note"))
-        noteDao.insertNote(Note("my third note"))
-        return null
-        }
-        }
-         **/
     }
-}
 
+}
 

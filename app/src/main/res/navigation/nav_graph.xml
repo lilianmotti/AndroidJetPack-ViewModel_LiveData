@@ -11,7 +11,8 @@
     </fragment>
     <fragment android:id="@+id/addNotesFragment"
               android:name="com.wordpress.liliangmader.mylivedatanotepad.ui.AddNotesFragment"
-              android:label="AddNotesFragment">
+              android:label="AddNotesFragment"
+                tools:layout="@layout/fragment_add_notes">
         <action android:id="@+id/action_addNotesFragment_to_listNotesFragment" app:destination="@id/listNotesFragment"/>
     </fragment>
 </navigation>

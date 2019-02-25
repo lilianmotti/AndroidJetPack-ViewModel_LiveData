@@ -16,7 +16,10 @@ interface NoteDAO {
     fun insertNote(note: Note):Long
 
     @Update(onConflict = REPLACE)
-    fun update(note: Note): Int
+    fun updateNote(note: Note): Int
+
+    @Delete
+    fun deleteNote(note: Note): Int
 
     @Query("DELETE FROM note_table")
     fun deleteAllNotes()

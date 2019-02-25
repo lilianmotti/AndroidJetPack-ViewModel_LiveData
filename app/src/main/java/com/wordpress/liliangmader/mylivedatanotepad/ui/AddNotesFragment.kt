@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 
 import com.wordpress.liliangmader.mylivedatanotepad.R
 import com.wordpress.liliangmader.mylivedatanotepad.data.Note
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,7 +36,7 @@ class AddNotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_add_notes, container, false)
+        val view = inflater.inflate(R.layout.fragment_add_notes, container, false)
 
         editWordView = view.findViewById(R.id.edit_word)
      //   val button = view.findViewById<Button>(R.id.button_save)
@@ -50,8 +52,8 @@ class AddNotesFragment : Fragment() {
                 val note = editWordView.text.toString()
              //   replyIntent.putExtra(EXTRA_REPLY, word)
              //   setResult(Activity.RESULT_OK, replyIntent)
-                noteViewModel.insert(Note(note))
-                findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment)
+             //    noteViewModel.insertNote(Note(note))
+                findNavController().navigate(R.id.action_addNotesFragment_to_listNotesFragment)
                 //another way: implement onFragmentInteractionListener
                 //TODO add more fragments and media player
             }
@@ -61,6 +63,16 @@ class AddNotesFragment : Fragment() {
          return view
     }
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+            noteViewModel = activity?.run{
+                ViewModelProviders.of(this).get(NoteViewModel::class.java)
+            } ?:throw Exception("Invalid Activity")
+
+
+    }
  /**example for activity intents
  companion object {
      const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"

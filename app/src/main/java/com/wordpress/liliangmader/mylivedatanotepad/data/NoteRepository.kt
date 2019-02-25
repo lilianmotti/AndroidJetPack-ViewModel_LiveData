@@ -23,8 +23,18 @@ class NoteRepository(private val noteDAO: NoteDAO) {
 
     //use coroutines
     @WorkerThread
-    suspend fun insert(note: Note) {
+    suspend fun insertNote(note: Note) {
         noteDAO.insertNote(note)
+    }
+
+    @WorkerThread
+    suspend fun deleteNote(note: Note) {
+        noteDAO.deleteNote(note)
+    }
+
+    @WorkerThread
+    suspend fun deleteAllNotes() {
+        noteDAO.deleteAllNotes()
     }
 }
 

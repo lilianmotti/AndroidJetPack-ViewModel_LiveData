@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wordpress.liliangmader.mylivedatanotepad.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list_notes.*
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +41,7 @@ class ListNotesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_list_notes, container, false)
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.notes_recyclerview)
         adapter = NoteListAdapter(context!!)
         recyclerView.adapter = adapter
@@ -48,29 +50,31 @@ class ListNotesFragment : Fragment() {
 
         val button = view.findViewById<Button>(R.id.button_add)
         button.setOnClickListener {
-           // val intent = Intent(this@MainActivity, NewWordActivity::class.java)
-           // startActivityForResult(intent, newWordActivityRequestCode)
-           Toast.makeText(context,"click", Toast.LENGTH_SHORT).show()
-           findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment)
-       }
+            // val intent = Intent(this@MainActivity, NewWordActivity::class.java)
+            // startActivityForResult(intent, newWordActivityRequestCode)
+            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment)
+        }
 
         return view
     }
 
-// fragments can be attached and re-attached, calling onCreateView and onAcvtivityCreated again
-    //good practice: initialize asynchronous operations as LiveDatain onActivityCreated
+    // fragments can be attached and re-attached, calling onCreateView and onAcvtivityCreated again
+    //good practice: initialize asynchronous operations as LiveData in onActivityCreated
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
 
-      /**  noteViewModel.allNotes.observe(this, Observer { notes ->
-            notes?.let {
-                adapter.setNotes(it)
-            }
+        noteViewModel = activity?.run {
+            ViewModelProviders.of(this).get(NoteViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-        })**/
-    }
+        noteViewModel.allNotes.observe(this, Observer { notes ->
+         notes?.let {
+           adapter.setNotes(it)
+         }
+        })
 
+}
 
     /**
      override fun onDestroyView() {

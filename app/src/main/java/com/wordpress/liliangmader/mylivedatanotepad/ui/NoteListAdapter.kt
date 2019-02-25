@@ -31,7 +31,9 @@ class NoteListAdapter internal constructor(context: Context):
         holder.noteItemView.text = current.note_text
     }
 
-    internal fun setNotes(words: List<Note>) {
+    //called inside fragment, OnActivityCreated
+    internal fun setNotes(notes: List<Note>) {
+        //TODO review this function and content
         this.notes = notes
         notifyDataSetChanged()
     }

@@ -27,7 +27,7 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
     val allNotes: LiveData<List<Note>>
 
     init {
-        val noteDao = NoteDatabase.getInstance(application,scope)!!.noteDao()
+        val noteDao = NoteDatabase.getInstance(application,scope).noteDao()
         noteRepository = NoteRepository(noteDao)
         allNotes = noteRepository.allNotes
     }
@@ -37,9 +37,15 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
 
   //  fun insertNote(note: Note) = noteRepository.insertNote(note)
 
-    fun insert(note:Note) = scope.launch(Dispatchers.IO) {
-        noteRepository.insert(note)
+    fun insertNote(note:Note) = scope.launch(Dispatchers.IO) {
+        noteRepository.insertNote(note)
     }
+
+    fun deleteNote(note:Note) = scope.launch(Dispatchers.IO) {
+        noteRepository.deleteNote(note)
+    }
+
+    fun getAllNotes(allNotes: LiveData<List<Note>>) = allNotes
 
     override fun onCleared() {
         super.onCleared()
