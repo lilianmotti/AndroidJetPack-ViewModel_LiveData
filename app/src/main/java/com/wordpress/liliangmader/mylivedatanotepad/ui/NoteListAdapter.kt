@@ -16,9 +16,16 @@ class NoteListAdapter internal constructor(context: Context):
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var notes = emptyList<Note>()
+    var onItemClick: ((Note)->Unit) ?= null
 
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val noteItemView: TextView = itemView.findViewById(R.id.textView)
+
+        init{
+            itemView.setOnClickListener {
+                onItemClick?.invoke(notes[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -29,6 +36,7 @@ class NoteListAdapter internal constructor(context: Context):
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val current = notes[position]
         holder.noteItemView.text = current.note_text
+
     }
 
     //called inside fragment, OnActivityCreated
@@ -39,4 +47,6 @@ class NoteListAdapter internal constructor(context: Context):
     }
 
     override fun getItemCount() = notes.size
+
+
 }

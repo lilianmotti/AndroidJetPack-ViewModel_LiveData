@@ -53,7 +53,7 @@ class AddNotesFragment : Fragment() {
              //code for activity intents
                 //   replyIntent.putExtra(EXTRA_REPLY, word)
              //   setResult(Activity.RESULT_OK, replyIntent)
-                 noteViewModel.insertNote(Note(note))
+                noteViewModel.insertNote(Note(note))
                 Toast.makeText(context,"Note added $note", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_addNotesFragment_to_listNotesFragment)
                 //another way: implement onFragmentInteractionListener

@@ -39,6 +39,10 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
         noteRepository.insertNote(note)
     }
 
+    fun updateNote(note:Note) = scope.launch(Dispatchers.IO) {
+        noteRepository.updateNote(note)
+    }
+
     fun deleteNote(note:Note) = scope.launch(Dispatchers.IO) {
         noteRepository.deleteNote(note)
     }

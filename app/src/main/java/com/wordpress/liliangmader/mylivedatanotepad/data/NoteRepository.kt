@@ -33,6 +33,11 @@ class NoteRepository(private val noteDAO: NoteDAO) {
     }
 
     @WorkerThread
+    suspend fun updateNote(note: Note) {
+        noteDAO.updateNote(note)
+    }
+
+    @WorkerThread
     suspend fun deleteAllNotes() {
         noteDAO.deleteAllNotes()
     }

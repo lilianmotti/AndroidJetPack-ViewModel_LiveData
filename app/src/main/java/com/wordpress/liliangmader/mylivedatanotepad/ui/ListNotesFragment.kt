@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.wordpress.liliangmader.mylivedatanotepad.R
+import com.wordpress.liliangmader.mylivedatanotepad.data.Note
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list_notes.*
 import java.lang.Exception
@@ -47,6 +48,14 @@ class ListNotesFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context!!)
 
+        //set onclick listeners to itemViews
+      //  notes_recyclerview.layoutManager = LinearLayoutManager(activity)
+        adapter.onItemClick = {it ->
+            //
+            Toast.makeText(context, "click on note", Toast.LENGTH_SHORT).show()
+
+        }
+
 
         val button = view.findViewById<Button>(R.id.button_add)
         button.setOnClickListener {
@@ -75,6 +84,8 @@ class ListNotesFragment : Fragment() {
         })
 
 }
+
+
 
     /**
      override fun onDestroyView() {
