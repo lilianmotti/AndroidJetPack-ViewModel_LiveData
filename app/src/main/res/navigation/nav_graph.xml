@@ -6,13 +6,14 @@
             app:startDestination="@id/listNotesFragment">
     <fragment android:id="@+id/listNotesFragment"
               android:name="com.wordpress.liliangmader.mylivedatanotepad.ui.ListNotesFragment"
-              android:label="fragment_list_notes" tools:layout="@layout/fragment_list_notes">
+              android:label="fragment_list_notes"
+              tools:layout="@layout/fragment_list_notes">
         <action android:id="@+id/action_listNotesFragment_to_addNotesFragment" app:destination="@id/addNotesFragment"/>
     </fragment>
     <fragment android:id="@+id/addNotesFragment"
               android:name="com.wordpress.liliangmader.mylivedatanotepad.ui.AddNotesFragment"
               android:label="AddNotesFragment"
-                tools:layout="@layout/fragment_add_notes">
+              tools:layout="@layout/fragment_add_notes">
         <action android:id="@+id/action_addNotesFragment_to_listNotesFragment" app:destination="@id/listNotesFragment"/>
     </fragment>
 </navigation>

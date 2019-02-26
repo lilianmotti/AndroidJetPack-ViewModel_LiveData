@@ -31,6 +31,7 @@ class AddNotesFragment : Fragment() {
     private lateinit var editWordView: EditText
     private lateinit var noteViewModel: NoteViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,6 +76,16 @@ class AddNotesFragment : Fragment() {
 
 
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // passed args :             bundle.putString("arg1","myNote")
+        val getArgs = "received arguments " + arguments?.getString("arg1")
+        Toast.makeText(context,getArgs, Toast.LENGTH_SHORT).show()
+    }
+
+
+
  /**example for activity intents
  companion object {
      const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"

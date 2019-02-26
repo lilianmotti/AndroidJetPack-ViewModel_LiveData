@@ -35,6 +35,7 @@ class ListNotesFragment : Fragment() {
 
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var adapter: NoteListAdapter
+    val getArgs = "received arguments " + arguments?.getString("arg1")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,8 +52,11 @@ class ListNotesFragment : Fragment() {
         //set onclick listeners to itemViews
       //  notes_recyclerview.layoutManager = LinearLayoutManager(activity)
         adapter.onItemClick = {it ->
-            //
-            Toast.makeText(context, "click on note", Toast.LENGTH_SHORT).show()
+           // val action = ListNotes
+         //   Toast.makeText(context, "click on note ${it.note_text}", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putString("arg1",it.note_text)
+            findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
 
         }
 
@@ -61,8 +65,10 @@ class ListNotesFragment : Fragment() {
         button.setOnClickListener {
             // val intent = Intent(this@MainActivity, NewWordActivity::class.java)
             // startActivityForResult(intent, newWordActivityRequestCode)
-            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment)
+           // Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putString("arg1","add")
+            findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
         }
 
         return view
