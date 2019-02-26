@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "note_table")
 //create member variables
 class Note(
-    @PrimaryKey //(autoGenerate = true) val id:Long,
+    @PrimaryKey //(autoGenerate = true) val id:Int,
     @ColumnInfo(name = "note") var note_text: String
     //additional functions and variables to be added later
     //SQLite table needs primary keys

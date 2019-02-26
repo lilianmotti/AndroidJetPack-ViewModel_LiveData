@@ -18,14 +18,15 @@ class NoteListAdapter internal constructor(context: Context):
     private var notes = emptyList<Note>()
     var onItemClick: ((Note)->Unit) ?= null
 
+    //inner class not good practice
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val noteItemView: TextView = itemView.findViewById(R.id.textView)
 
-        init{
-            itemView.setOnClickListener {
-                onItemClick?.invoke(notes[adapterPosition])
-            }
-        }
+      // init{
+       //     itemView.setOnClickListener {
+        //        onItemClick?.invoke(notes[adapterPosition])
+      //      }
+     //   }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -35,8 +36,11 @@ class NoteListAdapter internal constructor(context: Context):
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val current = notes[position]
+     // val posNote = notes.get(position)
         holder.noteItemView.text = current.note_text
-
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(notes[position])
+        }
     }
 
     //called inside fragment, OnActivityCreated
