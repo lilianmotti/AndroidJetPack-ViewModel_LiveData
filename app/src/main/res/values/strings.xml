@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MyLiveDataNotepad</string>
+    <string name="add_note">Add note</string>
+    <string name="edit_note">Edit note</string>
 
     <string name="hint_word">Note...</string>
     <string name="button_save">Save</string>

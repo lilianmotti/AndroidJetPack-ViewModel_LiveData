@@ -35,7 +35,13 @@ class ListNotesFragment : Fragment() {
 
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var adapter: NoteListAdapter
-    val getArgs = "received arguments " + arguments?.getString("arg1")
+   // val getArgs = "received arguments " + arguments?.getString("arg1")
+    private val ADD_NOTE_REQUEST = 1
+    private val EDIT_NOTE_REQUEST = 2
+    private val NOTIFY_UPDATE = 3
+    private var getRequest: Int = 0
+   // private var getArgs = arguments?.getString("arg1")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +49,7 @@ class ListNotesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_list_notes, container, false)
+        activity?.setTitle(R.string.app_name)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.notes_recyclerview)
         adapter = NoteListAdapter(context!!)
@@ -56,6 +63,7 @@ class ListNotesFragment : Fragment() {
          //   Toast.makeText(context, "click on note ${it.note_text}", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             bundle.putString("arg1",it.note_text)
+            bundle.putInt("request",EDIT_NOTE_REQUEST)
             findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
 
         }
@@ -68,7 +76,10 @@ class ListNotesFragment : Fragment() {
            // Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             bundle.putString("arg1","add")
-            findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
+            bundle.putInt("request",ADD_NOTE_REQUEST)
+
+           //TODO correct update options and re-activate next line
+           // findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
         }
 
         return view
@@ -86,10 +97,12 @@ class ListNotesFragment : Fragment() {
         noteViewModel.allNotes.observe(this, Observer { notes ->
          notes?.let {
            adapter.setNotes(it)
+             adapter.notifyDataSetChanged()
          }
         })
 
-}
+
+    }
 
 
 
