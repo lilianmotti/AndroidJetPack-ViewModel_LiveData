@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,9 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.wordpress.liliangmader.mylivedatanotepad.R
-import com.wordpress.liliangmader.mylivedatanotepad.data.Note
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list_notes.*
+
 import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,7 +50,7 @@ class ListNotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_list_notes, container, false)
+        val view = inflater.inflate(R.layout.fragment_list_notes, container, false)
         activity?.setTitle(R.string.app_name)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.notes_recyclerview)
@@ -73,14 +75,36 @@ class ListNotesFragment : Fragment() {
         button.setOnClickListener {
             // val intent = Intent(this@MainActivity, NewWordActivity::class.java)
             // startActivityForResult(intent, newWordActivityRequestCode)
-           // Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
-            val bundle = Bundle()
-            bundle.putString("arg1","add")
-            bundle.putInt("request",ADD_NOTE_REQUEST)
+            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+
+            // if dialog not working add the following bundle and navigation
+           // val bundle = Bundle()
+           // bundle.putString("arg1","add")
+           // bundle.putInt("request",ADD_NOTE_REQUEST)
 
            //TODO correct update options and re-activate next line
            // findNavController().navigate(R.id.action_listNotesFragment_to_addNotesFragment, bundle)
+
+            //TODO try dialog for adding notes
+              val inputField = EditText(requireActivity())
+              val dialog = AlertDialog.Builder(requireContext())
+                            .setTitle("Add note")
+                            .setMessage("Add note")
+                            .setView(inputField)
+                            .setPositiveButton("Save") {_,_ ->
+                                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                            }
+                            .setNegativeButton("Cancel", null)
+                  .create()
+                dialog.show()
+
+             //
+            // }
         }
+
+
+
+
 
         return view
     }
