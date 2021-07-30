@@ -2,6 +2,7 @@ package com.wordpress.liliangmader.mylivedatanotepad.ui
 
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.wordpress.liliangmader.mylivedatanotepad.R
+import com.wordpress.liliangmader.mylivedatanotepad.data.Note
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list_notes.*
 
@@ -92,7 +94,16 @@ class ListNotesFragment : Fragment() {
                             .setMessage("Add note")
                             .setView(inputField)
                             .setPositiveButton("Save") {_,_ ->
-                                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                                if (TextUtils.isEmpty(inputField.text)) {
+                                    Toast.makeText(context, "Please add note", Toast.LENGTH_SHORT).show()
+
+                                } else {
+                                    val note = inputField.text.toString()
+                                    noteViewModel.insertNote(Note(note))
+                                    Toast.makeText(context, "Note added $note", Toast.LENGTH_SHORT)
+                                        .show()
+                                    // Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+                                }
                             }
                             .setNegativeButton("Cancel", null)
                   .create()
